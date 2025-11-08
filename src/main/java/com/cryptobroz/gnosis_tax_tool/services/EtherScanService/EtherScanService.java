@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,12 +15,9 @@ import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTra
 @Service
 public class EtherScanService {
   private final String BASE_URL = "https://api.etherscan.io/v2/api";
-
-  // private final String EURe_CONTRACT_ADDRESS =
-  // "0x420CA0f9B9b604cE0fd9C18EF134C705e5Fa3430";
   private final String GNOSIS_CONTRACT_ADDRESS = "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb";
-
   private final int GNOSIS_CHAIN_ID = 100;
+  private final String METHOD_ID = "0x6a761202"; // This is transfer methodId ?
 
   private final RestTemplate restTemplate;
   private final EtherScanServiceConfiguration configuration;
@@ -46,19 +42,34 @@ public class EtherScanService {
         .queryParam("endblock", 999999999)
         .queryParam("page", 1)
         .queryParam("offset", 10) // max 10 results
-        .queryParam("sort", "desc") // latest 1st
+        .queryParam("sort", "desc") // latest first
         .build().toUri();
   }
 
   // Get ERC20 Token Transfers by Address
   public List<EtherScanTransaction> fetchTransactions() {
-    URI uri = buildURI();
+    final String address = configuration.getAddress();
+    final URI uri = buildURI();
 
-    // TODO: null checks
-    // TODO: filter methodId 0x6a761202 (transfer)
-    // TODO: filter to address
+    if (uri == null) {
+      throw new IllegalStateException("URI is null");
+    }
 
     EtherScanResponse response = restTemplate.getForObject(uri, EtherScanResponse.class);
-    return response.getResult();
+
+    if (response == null) {
+      throw new IllegalStateException("Response is null");
+    }
+
+    List<EtherScanTransaction> transactions = response.getResult();
+
+    if (transactions == null) {
+      throw new IllegalStateException("Transactions are null");
+    }
+
+    return transactions.stream()
+        .filter(tx -> tx.getMethodId() != null && tx.getMethodId().equals(METHOD_ID))
+        .filter(tx -> tx.getTo() != null && tx.getTo().equalsIgnoreCase(address))
+        .toList();
   }
 }
