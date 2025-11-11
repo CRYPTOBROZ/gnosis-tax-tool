@@ -28,3 +28,4 @@ How to reload env variables from `.env`.
 ### API ENDPOINTS:
 
 `/api/v1/cashback`
+`/api/v1/ohcl`
