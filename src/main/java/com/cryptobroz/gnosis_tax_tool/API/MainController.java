@@ -6,19 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cryptobroz.gnosis_tax_tool.services.CoinGeckoService.CoingGeckoService;
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.EtherScanService;
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.KrakenService;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponse;
 
 @RestController
 public class MainController {
 
   EtherScanService etherScanService;
-  CoingGeckoService coingGeckoService;
+  KrakenService krakenService;
 
-  public MainController(@Autowired EtherScanService etherScanService, @Autowired CoingGeckoService coingGeckoService) {
+  public MainController(@Autowired EtherScanService etherScanService, @Autowired KrakenService krakenService) {
     this.etherScanService = etherScanService;
-    this.coingGeckoService = coingGeckoService;
+    this.krakenService = krakenService;
   }
 
   @GetMapping("/")
@@ -31,9 +32,8 @@ public class MainController {
     return etherScanService.fetchCurrentYearCashbackTransactions();
   }
 
-  @GetMapping("/api/v1/asd")
-  public List<EtherScanTransaction> wowsuchendpoint() {
-    coingGeckoService.fetchPrice();
-    return null;
+  @GetMapping("/api/v1/ohcl")
+  public KrakenResponse krakenohcl() {
+    return krakenService.fetchOHCL();
   }
 }
