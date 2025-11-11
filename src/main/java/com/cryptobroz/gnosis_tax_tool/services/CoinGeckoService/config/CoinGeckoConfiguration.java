@@ -1,12 +1,11 @@
-package com.cryptobroz.gnosis_tax_tool.services.EtherScanService.config;
+package com.cryptobroz.gnosis_tax_tool.services.CoinGeckoService.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class EtherScanServiceConfiguration {
-
-  @Value("${etherscan.api.key}")
+public class CoinGeckoConfiguration {
+  @Value("${coing.gecko.api.key}")
   private String apiKey;
 
   @Value("${gnosis.wallet.address}")
@@ -17,6 +16,6 @@ public class EtherScanServiceConfiguration {
   }
 
   public String getGnosisWalletAddress() {
-    return gnosisWalletAddress;
+    return getGnosisWalletAddress();
   }
 }

@@ -12,12 +12,20 @@
 
 ### Configure ETHERSCAN API key and Gnosis Wallet address.
 
-[Etherscan getting api key](https://docs.etherscan.io/getting-an-api-key)
+[Etherscan API Key](https://docs.etherscan.io/getting-an-api-key)
+[Coing Gecko API Key](https://docs.coingecko.com/docs/setting-up-your-api-key)
 
 ```
 etherscan.api.key=${ETHERSCAN_API_KEY}
-etherscan.api.address=${GNOSIS_WALLET_ADDRESS}
+coing.gecko.api.key=${COING_GECKO_API_KEY}
+gnosis.wallet.address=${GNOSIS_WALLET_ADDRESS}
 ```
+
+## .ENV
+
+Edit ENV variables in .env file and load env variables.
+
+`export $(grep -v '^#' .env | xargs)`
 
 ### API ENDPOINTS:
 
