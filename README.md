@@ -23,8 +23,9 @@ gnosis.wallet.address=${GNOSIS_WALLET_ADDRESS}
 
 ## .ENV
 
-Edit ENV variables in .env file and load env variables.
+Edit ENV variables in .env.example file, rename it to .env and load env variables.
 
+How to reload env variables from `.env`.
 `export $(grep -v '^#' .env | xargs)`
 
 ### API ENDPOINTS:
