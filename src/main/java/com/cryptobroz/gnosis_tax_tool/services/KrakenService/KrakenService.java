@@ -26,10 +26,10 @@ public class KrakenService {
   }
 
   public KrakenResponse fetchOHLC(int year) {
-    Instant since2006 = LocalDate.of(year, 1, 1)
+    Instant firstDayOfYear = LocalDate.of(year, 1, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
-    int sinceEpoch = (int) since2006.getEpochSecond();
+    int sinceEpoch = (int) firstDayOfYear.getEpochSecond();
     return fetchOHLC(PAIR, INTERVAL, sinceEpoch);
   }
 
