@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = TickerEntryDeserializer.class)
 public class TickerEntry {
   private long timestamp;
-  private String open;
-  private String high;
-  private String low;
-  private String close;
-  private String volume;
-  private String quoteVolume;
+  private Double open;
+  private Double high;
+  private Double low;
+  private Double close;
+  private Double volume;
+  private Double quoteVolume;
   private int count;
 
   public long getTimestamp() {
@@ -21,51 +21,51 @@ public class TickerEntry {
     this.timestamp = timestamp;
   }
 
-  public String getOpen() {
+  public Double getOpen() {
     return open;
   }
 
-  public void setOpen(String open) {
+  public void setOpen(Double open) {
     this.open = open;
   }
 
-  public String getHigh() {
+  public Double getHigh() {
     return high;
   }
 
-  public void setHigh(String high) {
+  public void setHigh(Double high) {
     this.high = high;
   }
 
-  public String getLow() {
+  public Double getLow() {
     return low;
   }
 
-  public void setLow(String low) {
+  public void setLow(Double low) {
     this.low = low;
   }
 
-  public String getClose() {
+  public Double getClose() {
     return close;
   }
 
-  public void setClose(String close) {
+  public void setClose(Double close) {
     this.close = close;
   }
 
-  public String getVolume() {
+  public Double getVolume() {
     return volume;
   }
 
-  public void setVolume(String volume) {
+  public void setVolume(Double volume) {
     this.volume = volume;
   }
 
-  public String getQuoteVolume() {
+  public Double getQuoteVolume() {
     return quoteVolume;
   }
 
-  public void setQuoteVolume(String quoteVolume) {
+  public void setQuoteVolume(Double quoteVolume) {
     this.quoteVolume = quoteVolume;
   }
 

@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenResponseResult {
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
+  private Map<String, List<TickerEntry>> pairs = new HashMap<>();
   private long last;
-  private Map<String, List<List<Object>>> pairs = new HashMap<>();
 
   public long getLast() {
     return last;
@@ -25,15 +29,17 @@ public class KrakenResponseResult {
       return;
     }
     if (value instanceof List) {
-      pairs.put(key, (List<List<Object>>) value);
+      List<TickerEntry> tickerEntries = objectMapper.convertValue(value,
+          new TypeReference<List<TickerEntry>>() {
+          });
+      if (tickerEntries == null) {
+        return;
+      }
+      pairs.put(key, tickerEntries);
     }
   }
 
-  public Map<String, List<List<Object>>> getPairs() {
+  public Map<String, List<TickerEntry>> getPairs() {
     return pairs;
-  }
-
-  public void setPairs(Map<String, List<List<Object>>> pairs) {
-    this.pairs = pairs;
   }
 }

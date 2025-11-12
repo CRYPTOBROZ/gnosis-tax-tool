@@ -1,6 +1,10 @@
 package com.cryptobroz.gnosis_tax_tool.services.KrakenService;
 
 import java.net.URI;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +16,8 @@ import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponse;
 public class KrakenService {
 
   private final RestTemplate restTemplate;
+  private final String PAIR = "GNO/EUR";
+  private final int INTERVAL = 1440; // daily
 
   private final String BASE_URL = "https://api.kraken.com/0/public/OHLC";
 
@@ -19,17 +25,25 @@ public class KrakenService {
     this.restTemplate = new RestTemplate();
   }
 
-  public URI getURI() {
-    return UriComponentsBuilder.fromUriString(BASE_URL)
-        .queryParam("pair", "GNO/EUR")
-        .queryParam("interval", 1440) // daily
-        .build().toUri();
+  public KrakenResponse fetchOHLC(int year) {
+    Instant since2006 = LocalDate.of(year, 1, 1)
+        .atStartOfDay(ZoneOffset.UTC)
+        .toInstant();
+    int sinceEpoch = (int) since2006.getEpochSecond();
+    return fetchOHLC(PAIR, INTERVAL, sinceEpoch);
   }
 
-  public KrakenResponse fetchOHLC() {
-    URI uri = getURI();
+  // Returns up to 720 of the most recent entries (older data cannot be retrieved,
+  // regardless of the value of since)
+  public KrakenResponse fetchOHLC(final String pair, final int interval, int since) {
+    URI uri = UriComponentsBuilder.fromUriString(BASE_URL)
+        .queryParam("pair", pair)
+        .queryParam("interval", interval)
+        .queryParam("since", since)
+        .build().toUri();
+
+    // TODO: This probably needs some exception handling
     ResponseEntity<KrakenResponse> response = restTemplate.getForEntity(uri, KrakenResponse.class);
     return response.getBody();
   }
-
 }

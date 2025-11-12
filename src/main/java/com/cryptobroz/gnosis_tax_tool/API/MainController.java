@@ -10,6 +10,7 @@ import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.EtherScanService
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
 import com.cryptobroz.gnosis_tax_tool.services.KrakenService.KrakenService;
 import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponse;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.TickerEntry;
 
 @RestController
 public class MainController {
@@ -34,6 +35,8 @@ public class MainController {
 
   @GetMapping("/api/v1/ohlc")
   public KrakenResponse krakenohlc() {
-    return krakenService.fetchOHLC();
+    int currentYear = java.time.Year.now().getValue();
+    KrakenResponse response = krakenService.fetchOHLC(currentYear);
+    return response;
   }
 }
