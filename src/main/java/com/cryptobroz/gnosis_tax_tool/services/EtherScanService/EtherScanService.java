@@ -8,7 +8,6 @@ import java.time.Year;
 import java.time.ZoneId;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,7 +35,7 @@ public class EtherScanService {
   private final RestTemplate restTemplate;
   private final EtherScanServiceConfiguration configuration;
 
-  public EtherScanService(@Autowired EtherScanServiceConfiguration configuration) {
+  public EtherScanService(EtherScanServiceConfiguration configuration) {
     this.restTemplate = new RestTemplate();
     this.configuration = configuration;
   }

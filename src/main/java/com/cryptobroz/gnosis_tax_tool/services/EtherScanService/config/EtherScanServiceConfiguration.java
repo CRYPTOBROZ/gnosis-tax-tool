@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class EtherScanServiceConfiguration {
-
   @Value("${etherscan.api.key}")
   private String apiKey;
 

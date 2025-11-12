@@ -17,7 +17,7 @@ public class MainController {
   EtherScanService etherScanService;
   KrakenService krakenService;
 
-  public MainController(@Autowired EtherScanService etherScanService, @Autowired KrakenService krakenService) {
+  public MainController(EtherScanService etherScanService, KrakenService krakenService) {
     this.etherScanService = etherScanService;
     this.krakenService = krakenService;
   }
@@ -32,8 +32,8 @@ public class MainController {
     return etherScanService.fetchCurrentYearCashbackTransactions();
   }
 
-  @GetMapping("/api/v1/ohcl")
-  public KrakenResponse krakenohcl() {
-    return krakenService.fetchOHCL();
+  @GetMapping("/api/v1/ohlc")
+  public KrakenResponse krakenohlc() {
+    return krakenService.fetchOHLC();
   }
 }

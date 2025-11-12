@@ -26,7 +26,7 @@ public class KrakenService {
         .build().toUri();
   }
 
-  public KrakenResponse fetchOHCL() {
+  public KrakenResponse fetchOHLC() {
     URI uri = getURI();
     ResponseEntity<KrakenResponse> response = restTemplate.getForEntity(uri, KrakenResponse.class);
     return response.getBody();
