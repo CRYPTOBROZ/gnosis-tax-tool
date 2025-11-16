@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KrakenResponseResult {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  private Map<String, List<TickerEntry>> pairs = new HashMap<>();
+  private Map<String, List<KrakenTickerEntry>> pairs = new HashMap<>();
   private long last;
 
   public long getLast() {
@@ -29,8 +29,8 @@ public class KrakenResponseResult {
       return;
     }
     if (value instanceof List) {
-      List<TickerEntry> tickerEntries = objectMapper.convertValue(value,
-          new TypeReference<List<TickerEntry>>() {
+      List<KrakenTickerEntry> tickerEntries = objectMapper.convertValue(value,
+          new TypeReference<List<KrakenTickerEntry>>() {
           });
       if (tickerEntries == null) {
         return;
@@ -39,7 +39,7 @@ public class KrakenResponseResult {
     }
   }
 
-  public Map<String, List<TickerEntry>> getPairs() {
+  public Map<String, List<KrakenTickerEntry>> getPairs() {
     return pairs;
   }
 }

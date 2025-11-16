@@ -4,6 +4,12 @@ import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponse;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponseResult;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.Seppo;
 
 @Service
 public class KrakenService {
@@ -23,6 +31,20 @@ public class KrakenService {
 
   public KrakenService() {
     this.restTemplate = new RestTemplate();
+  }
+
+  public Map<ZonedDateTime, Seppo> openCloseDate() {
+    int currentYear = java.time.Year.now().getValue();
+    return fetchOHLC(currentYear)
+        .getResult()
+        .getPairs()
+        .get(PAIR)
+        .stream()
+        .collect(Collectors.toMap(
+            e -> e.getDateTime(),
+            Seppo::fromKrakenTickerEntry,
+            (a, b) -> a,
+            TreeMap::new));
   }
 
   public KrakenResponse fetchOHLC(int year) {
