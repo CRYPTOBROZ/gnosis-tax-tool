@@ -5,8 +5,8 @@
 - is to fetch all gnosis pay wallet cahback transactions (EtherScanService)
 - is to retrieve daily Gnosis token prices based on the timestamps of those cashback transactions (KrakenService)
   - Service that will fetch GNO price for some specific date
-- calculate cashbacks euro value (TODO)
-- calculate capital tax for each transaction for current year (TODO)
+- calculate cashbacks euro value (CashbackService)
+- make page show yearly gno cashback, eur cashback and list of cashback transactions (TODO)
 - provide api endpoint for fetching tax report for current year (TODO)
 
 ### Configure ETHERSCAN API key and Gnosis Wallet address.
