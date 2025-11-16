@@ -27,5 +27,7 @@ How to reload env variables from `.env`.
 
 ### API ENDPOINTS:
 
-`/api/v1/cashback`
-`/api/v1/ohlc`
+- `/api/v1/ohlc`
+- `/api/v1/openclose`
+- `/api/v1/cashbacks`
+- `/api/v1/cashback/transactions`
