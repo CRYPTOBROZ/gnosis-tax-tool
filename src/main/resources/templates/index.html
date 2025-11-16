@@ -4,6 +4,17 @@
     <title>CryptoBroz</title>
 </head>
 <body>
+    <h1 th:text="${message}">placeholder</h1>
     <h1>CRYPTOBROZ Gnosis Tax Tool API is running!</h1>
+
+    <th:block th:each="cashback : ${cashbacks}">
+        <div>
+            <div th:utext="${cashback.hash}">..</div>
+            <div th:utext="${cashback.dateTime}">..</div>
+            GNO: <div th:utext="${cashback.gnoPrice}">..</div>
+            EUR: <div th:utext="${cashback.eurPrice}">..</div>
+            <hr/>
+        </div>
+    </th:block>
 </body>
 </html>
