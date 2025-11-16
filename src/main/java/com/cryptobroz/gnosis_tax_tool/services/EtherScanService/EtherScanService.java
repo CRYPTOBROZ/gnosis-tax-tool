@@ -84,21 +84,16 @@ public class EtherScanService {
 
     return transactions.stream()
         .filter(tx -> {
-          int txEpoch = Integer.parseInt(tx.getTimeStamp());
-          LocalDateTime txDate = epochToDate(txEpoch);
-          return txDate.getYear() == currentYear;
+          int txYear = epochToDate(tx.getTimeStamp()).getYear();
+          return txYear == currentYear;
         })
         .filter(tx -> tx.getMethodId() != null && tx.getMethodId().equals(METHOD_ID))
         .filter(tx -> tx.getTo() != null && tx.getTo().equalsIgnoreCase(gnosisWalletAddress))
         .toList();
   }
 
-  public static LocalDateTime epochToDate(int epochSeconds) {
-    return LocalDateTime.ofInstant(Instant.ofEpochSecond(epochSeconds), ZoneId.of("UTC"));
-  }
-
-  public String convertRawValueToDecimal(String rawValue, int decimals) {
-    return new BigDecimal(rawValue)
-        .movePointLeft(decimals).toPlainString();
+  public static LocalDateTime epochToDate(long epochSeconds) {
+    return LocalDateTime.ofInstant(Instant.ofEpochSecond(epochSeconds),
+        ZoneId.of("UTC"));
   }
 }

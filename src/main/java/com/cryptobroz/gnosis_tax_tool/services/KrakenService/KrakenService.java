@@ -4,27 +4,18 @@ import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponse;
-import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenResponseResult;
-import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.Seppo;
 
 @Service
 public class KrakenService {
+  public static final String GNO_EUR_PAIR = "GNO/EUR";
 
   private final RestTemplate restTemplate;
-  private final String PAIR = "GNO/EUR";
   private final int INTERVAL = 1440; // daily
 
   private final String BASE_URL = "https://api.kraken.com/0/public/OHLC";
@@ -33,26 +24,12 @@ public class KrakenService {
     this.restTemplate = new RestTemplate();
   }
 
-  public Map<ZonedDateTime, Seppo> openCloseDate() {
-    int currentYear = java.time.Year.now().getValue();
-    return fetchOHLC(currentYear)
-        .getResult()
-        .getPairs()
-        .get(PAIR)
-        .stream()
-        .collect(Collectors.toMap(
-            e -> e.getDateTime(),
-            Seppo::fromKrakenTickerEntry,
-            (a, b) -> a,
-            TreeMap::new));
-  }
-
   public KrakenResponse fetchOHLC(int year) {
     Instant firstDayOfYear = LocalDate.of(year, 1, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
     int sinceEpoch = (int) firstDayOfYear.getEpochSecond();
-    return fetchOHLC(PAIR, INTERVAL, sinceEpoch);
+    return fetchOHLC(GNO_EUR_PAIR, INTERVAL, sinceEpoch);
   }
 
   // Returns up to 720 of the most recent entries (older data cannot be retrieved,
