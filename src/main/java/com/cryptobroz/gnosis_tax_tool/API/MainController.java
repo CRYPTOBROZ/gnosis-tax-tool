@@ -50,7 +50,7 @@ public class MainController {
     return cashbackService.getCashbackPrices();
   }
 
-  @GetMapping("/api/v1/cashback/transactions")
+  @GetMapping("/api/v1/cashbacks/transactions")
   public List<EtherScanTransaction> currentYearCashbackTransactions() {
     return etherScanService.fetchCurrentYearCashbackTransactions();
   }

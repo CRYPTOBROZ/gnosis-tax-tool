@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -16,13 +17,22 @@ public class Cashback {
   private String to;
   private String from;
 
+  @JsonIgnore
   private long value;
+
+  @JsonIgnore
   private int decimal;
 
+  @JsonIgnore
   private ZonedDateTime priceDateTime;
 
+  @JsonIgnore
   private BigDecimal open;
+
+  @JsonIgnore
   private BigDecimal close;
+
+  @JsonIgnore
   private BigDecimal avarage;
 
   public static Cashback fromTransaction(EtherScanTransaction transaction) {
