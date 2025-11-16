@@ -21,7 +21,7 @@ public class EtherScanTransaction {
   private long value;
   private String tokenName;
   private String tokenSymbol;
-  private long tokenDecimal;
+  private int tokenDecimal;
   private String transactionIndex;
   private long gas;
   private long gasPrice;

@@ -1,5 +1,6 @@
 package com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
@@ -16,13 +17,13 @@ public class Cashback {
   private String from;
 
   private long value;
-  private long decimal;
+  private int decimal;
 
   private ZonedDateTime priceDateTime;
 
-  private Double open;
-  private Double close;
-  private Double avarage;
+  private BigDecimal open;
+  private BigDecimal close;
+  private BigDecimal avarage;
 
   public static Cashback fromTransaction(EtherScanTransaction transaction) {
     Cashback cashback = new Cashback();
@@ -40,5 +41,13 @@ public class Cashback {
     this.setClose(datePrice.getClose());
     this.setAvarage(datePrice.getAvarage());
     return this;
+  }
+
+  public BigDecimal getGnoPrice() {
+    return BigDecimal.valueOf(value).movePointLeft(decimal);
+  }
+
+  public BigDecimal getEurPrice() {
+    return getGnoPrice().multiply(avarage);
   }
 }
