@@ -16,7 +16,6 @@ import com.cryptobroz.gnosis_tax_tool.services.KrakenService.KrakenService;
 
 @Service
 public class CashbackService {
-
   EtherScanService etherScanService;
   KrakenService krakenService;
 
@@ -39,7 +38,7 @@ public class CashbackService {
             TreeMap::new));
   }
 
-  public List<Cashback> getCashbackPrices() {
+  public List<Cashback> getCashbacks() {
     Map<ZonedDateTime, DatePrice> datePrices = getDatePrices();
     List<EtherScanTransaction> transactions = etherScanService.fetchCurrentYearCashbackTransactions();
 

@@ -1,4 +1,4 @@
-package com.cryptobroz.gnosis_tax_tool.API;
+package com.cryptobroz.gnosis_tax_tool.controllers.api;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class MainController {
 
   @GetMapping("/api/v1/cashbacks")
   public List<Cashback> cashbackPrices() {
-    return cashbackService.getCashbackPrices();
+    return cashbackService.getCashbacks();
   }
 
   @GetMapping("/api/v1/cashbacks/transactions")

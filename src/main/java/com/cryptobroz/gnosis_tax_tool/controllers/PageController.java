@@ -1,4 +1,4 @@
-package com.cryptobroz.gnosis_tax_tool.API;
+package com.cryptobroz.gnosis_tax_tool.controllers;
 
 import java.util.List;
 
@@ -20,11 +20,8 @@ public class PageController {
 
   @GetMapping("/")
   public String index(Model model) {
-
-    List<Cashback> cashbacks = cashbackService.getCashbackPrices();
-
+    List<Cashback> cashbacks = cashbackService.getCashbacks();
     model.addAttribute("cashbacks", cashbacks);
-
     return "index";
   }
 }

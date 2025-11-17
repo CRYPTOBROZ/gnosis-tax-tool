@@ -1,11 +1,7 @@
 package com.cryptobroz.gnosis_tax_tool.services.EtherScanService;
 
-import java.math.BigDecimal;
 import java.net.URI;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.Year;
-import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -84,16 +80,11 @@ public class EtherScanService {
 
     return transactions.stream()
         .filter(tx -> {
-          int txYear = epochToDate(tx.getTimeStamp()).getYear();
+          int txYear = tx.getDateTime().getYear();
           return txYear == currentYear;
         })
         .filter(tx -> tx.getMethodId() != null && tx.getMethodId().equals(METHOD_ID))
         .filter(tx -> tx.getTo() != null && tx.getTo().equalsIgnoreCase(gnosisWalletAddress))
         .toList();
-  }
-
-  public static LocalDateTime epochToDate(long epochSeconds) {
-    return LocalDateTime.ofInstant(Instant.ofEpochSecond(epochSeconds),
-        ZoneId.of("UTC"));
   }
 }
