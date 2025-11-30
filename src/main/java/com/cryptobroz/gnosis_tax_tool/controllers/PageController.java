@@ -1,13 +1,10 @@
 package com.cryptobroz.gnosis_tax_tool.controllers;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.cryptobroz.gnosis_tax_tool.services.CashbackService.CashbackService;
-import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.Cashback;
 import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.CashbackReport;
 
 @Controller

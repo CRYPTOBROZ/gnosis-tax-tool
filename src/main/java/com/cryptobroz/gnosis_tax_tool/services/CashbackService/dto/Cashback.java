@@ -6,15 +6,13 @@ import java.time.ZonedDateTime;
 
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
 
-// TODO: use Instant instead of ZonedDateTime
 public record Cashback(ZonedDateTime transactionZonedDateTime, String hash, String to, String from, long value,
-    int decimal, BigDecimal open, BigDecimal close, BigDecimal avarage) {
+    int decimal, BigDecimal open, BigDecimal close) {
 
   public static Cashback fromTransactionAndDatePrice(EtherScanTransaction transaction, DatePrice datePrice) {
     return new Cashback(
         transaction.getZonedDateTime(), transaction.hash(), transaction.to(), transaction.from(), transaction.value(),
-        transaction.tokenDecimal(), datePrice.open(), datePrice.close(),
-        datePrice.avarage());
+        transaction.tokenDecimal(), datePrice.open(), datePrice.close());
   }
 
   public BigDecimal getGnoPrice() {
@@ -22,7 +20,7 @@ public record Cashback(ZonedDateTime transactionZonedDateTime, String hash, Stri
   }
 
   public BigDecimal getEurPrice() {
-    return getGnoPrice().multiply(avarage);
+    return getGnoPrice().multiply(this.getAvarageEurPrice());
   }
 
   public ZonedDateTime getHelsinkiZonedDateTime() {
@@ -31,6 +29,11 @@ public record Cashback(ZonedDateTime transactionZonedDateTime, String hash, Stri
 
   public String getShortenedHash() {
     return shortenHash(hash, 15);
+  }
+
+  public BigDecimal getAvarageEurPrice() {
+    BigDecimal sum = open.add(close);
+    return sum.divide(BigDecimal.valueOf(2));
   }
 
   public static String shortenHash(String hash, int visibleChars) {

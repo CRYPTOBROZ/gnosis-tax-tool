@@ -28,13 +28,13 @@ public class KrakenService {
     Instant firstDayOfYear = LocalDate.of(year, 1, 1)
         .atStartOfDay(ZoneOffset.UTC)
         .toInstant();
-    int sinceEpoch = (int) firstDayOfYear.getEpochSecond();
+    long sinceEpoch = firstDayOfYear.getEpochSecond();
     return fetchOHLC(GNO_EUR_PAIR, INTERVAL, sinceEpoch);
   }
 
   // Returns up to 720 of the most recent entries (older data cannot be retrieved,
   // regardless of the value of since)
-  public KrakenResponse fetchOHLC(final String pair, final int interval, int since) {
+  public KrakenResponse fetchOHLC(final String pair, final int interval, long since) {
     URI uri = UriComponentsBuilder.fromUriString(BASE_URL)
         .queryParam("pair", pair)
         .queryParam("interval", interval)

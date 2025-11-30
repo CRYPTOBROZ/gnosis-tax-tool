@@ -1,6 +1,7 @@
 package com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,10 +20,10 @@ public class KrakenTickerEntryDeserializer extends JsonDeserializer<KrakenTicker
         if (node.isArray() && node.size() == 8) {
             return new KrakenTickerEntry(
                     node.get(0).asInt(),
-                    node.get(1).decimalValue(),
+                    new BigDecimal(node.get(1).asText()),
                     node.get(2).asDouble(),
                     node.get(3).asDouble(),
-                    node.get(4).decimalValue(),
+                    new BigDecimal(node.get(4).asText()),
                     node.get(5).asDouble(),
                     node.get(6).asDouble(),
                     node.get(7).asInt());

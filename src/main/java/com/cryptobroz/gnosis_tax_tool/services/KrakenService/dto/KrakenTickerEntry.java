@@ -13,11 +13,6 @@ public record KrakenTickerEntry(int timestamp, BigDecimal open, Double high, Dou
     Double volume, Double quoteVolume, int count) {
 
   @JsonIgnore
-  public BigDecimal getAvarageEurPrice() {
-    return BigDecimal.valueOf((this.high + this.low) / 2);
-  }
-
-  @JsonIgnore
   public ZonedDateTime getZonedDateTime() {
     Instant instant = Instant.ofEpochSecond(this.timestamp);
     return instant.atZone(ZoneId.of("UTC"));
