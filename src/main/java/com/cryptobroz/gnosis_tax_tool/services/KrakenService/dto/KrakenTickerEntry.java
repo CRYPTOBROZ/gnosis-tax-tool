@@ -13,7 +13,7 @@ public record KrakenTickerEntry(int timestamp, BigDecimal open, Double high, Dou
     Double volume, Double quoteVolume, int count) {
 
   @JsonIgnore
-  public BigDecimal getAvarage() {
+  public BigDecimal getAvarageEurPrice() {
     return BigDecimal.valueOf((this.high + this.low) / 2);
   }
 

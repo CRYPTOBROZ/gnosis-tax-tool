@@ -8,6 +8,6 @@ import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenTickerEnt
 public record DatePrice(ZonedDateTime zonedDateTime, BigDecimal open, BigDecimal close, BigDecimal avarage) {
   public static DatePrice fromKrakenTickerEntry(final ZonedDateTime zonedDateTime,
       final KrakenTickerEntry tickerEntry) {
-    return new DatePrice(zonedDateTime, tickerEntry.open(), tickerEntry.close(), tickerEntry.getAvarage());
+    return new DatePrice(zonedDateTime, tickerEntry.open(), tickerEntry.close(), tickerEntry.getAvarageEurPrice());
   }
 }
