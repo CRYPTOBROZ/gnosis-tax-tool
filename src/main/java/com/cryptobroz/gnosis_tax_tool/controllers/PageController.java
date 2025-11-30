@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.cryptobroz.gnosis_tax_tool.services.CashbackService.CashbackService;
 import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.Cashback;
+import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.CashbackReport;
 
 @Controller
 public class PageController {
@@ -20,8 +21,8 @@ public class PageController {
 
   @GetMapping("/")
   public String index(Model model) {
-    List<Cashback> cashbacks = cashbackService.getCashbacks();
-    model.addAttribute("cashbacks", cashbacks);
+    CashbackReport cashbackReport = cashbackService.getCashbackReport();
+    model.addAttribute("report", cashbackReport);
     return "index";
   }
 }

@@ -17,16 +17,15 @@ public class KrakenTickerEntryDeserializer extends JsonDeserializer<KrakenTicker
         JsonNode node = p.getCodec().readTree(p);
 
         if (node.isArray() && node.size() == 8) {
-            KrakenTickerEntry entry = new KrakenTickerEntry();
-            entry.setTimestamp(node.get(0).asInt());
-            entry.setOpen(node.get(1).decimalValue());
-            entry.setHigh(node.get(2).asDouble());
-            entry.setLow(node.get(3).asDouble());
-            entry.setClose(node.get(4).decimalValue());
-            entry.setVolume(node.get(5).asDouble());
-            entry.setQuoteVolume(node.get(6).asDouble());
-            entry.setCount(node.get(7).asInt());
-            return entry;
+            return new KrakenTickerEntry(
+                    node.get(0).asInt(),
+                    node.get(1).decimalValue(),
+                    node.get(2).asDouble(),
+                    node.get(3).asDouble(),
+                    node.get(4).decimalValue(),
+                    node.get(5).asDouble(),
+                    node.get(6).asDouble(),
+                    node.get(7).asInt());
         }
 
         throw JsonMappingException.from(p, "Invalid TickerEntry format");

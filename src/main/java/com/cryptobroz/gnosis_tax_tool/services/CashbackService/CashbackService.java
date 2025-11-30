@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.Cashback;
 import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.DatePrice;
+import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.CashbackReport;
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.EtherScanService;
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
 import com.cryptobroz.gnosis_tax_tool.services.KrakenService.KrakenService;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenTickerEntry;
 
 @Service
 public class CashbackService {
@@ -26,14 +28,17 @@ public class CashbackService {
 
   public Map<ZonedDateTime, DatePrice> getDatePrices() {
     int currentYear = java.time.Year.now().getValue();
-    return krakenService.fetchOHLC(currentYear)
-        .getResult()
+    List<KrakenTickerEntry> tickers = krakenService.fetchOHLC(currentYear)
+        .result()
         .getPairs()
-        .get(KrakenService.GNO_EUR_PAIR)
-        .stream()
+        .get(KrakenService.GNO_EUR_PAIR);
+
+    return tickers.stream()
         .collect(Collectors.toMap(
-            e -> e.getDateTime(),
-            DatePrice::fromKrakenTickerEntry,
+            e -> e.getZonedDateTime(),
+            (tickerEntry) -> {
+              return DatePrice.fromKrakenTickerEntry(tickerEntry.getZonedDateTime(), tickerEntry);
+            },
             (a, b) -> a,
             TreeMap::new));
   }
@@ -43,16 +48,15 @@ public class CashbackService {
     List<EtherScanTransaction> transactions = etherScanService.fetchCurrentYearCashbackTransactions();
 
     return transactions.stream().map(transaction -> {
-      ZonedDateTime dateOnly = transaction.getDateTime().toLocalDate()
-          .atStartOfDay(transaction.getDateTime().getZone());
-      DatePrice price = datePrices.get(dateOnly);
-
-      Cashback cashback = Cashback.fromTransaction(transaction);
-      cashback.copyDatePrice(price);
-      cashback.setPriceDateTime(dateOnly);
-
-      return cashback;
+      ZonedDateTime dateTime = transaction.getZonedDateTime().toLocalDate()
+          .atStartOfDay(transaction.getZonedDateTime().getZone());
+      DatePrice datePrice = datePrices.get(dateTime);
+      return Cashback.fromTransactionAndDatePrice(transaction, datePrice);
     }).toList();
+  }
 
+  public CashbackReport getCashbackReport() {
+    List<Cashback> cashbacks = this.getCashbacks();
+    return new CashbackReport(cashbacks);
   }
 }

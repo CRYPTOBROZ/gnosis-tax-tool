@@ -4,53 +4,15 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+public record Cashback(ZonedDateTime dateTime, String hash, String to, String from, long value, int decimal,
+    ZonedDateTime zonedDateTime, BigDecimal open, BigDecimal close, BigDecimal avarage) {
 
-@Data
-public class Cashback {
-  private ZonedDateTime dateTime;
-
-  private String hash;
-
-  private String to;
-  private String from;
-
-  @JsonIgnore
-  private long value;
-
-  @JsonIgnore
-  private int decimal;
-
-  @JsonIgnore
-  private ZonedDateTime priceDateTime;
-
-  @JsonIgnore
-  private BigDecimal open;
-
-  @JsonIgnore
-  private BigDecimal close;
-
-  @JsonIgnore
-  private BigDecimal avarage;
-
-  public static Cashback fromTransaction(EtherScanTransaction transaction) {
-    Cashback cashback = new Cashback();
-    cashback.setDateTime(transaction.getDateTime());
-    cashback.setHash(transaction.getHash());
-    cashback.setTo(transaction.getTo());
-    cashback.setFrom(transaction.getFrom());
-    cashback.setValue(transaction.getValue());
-    cashback.setDecimal(transaction.getTokenDecimal());
-    return cashback;
-  }
-
-  public Cashback copyDatePrice(DatePrice datePrice) {
-    this.setOpen(datePrice.getOpen());
-    this.setClose(datePrice.getClose());
-    this.setAvarage(datePrice.getAvarage());
-    return this;
+  public static Cashback fromTransactionAndDatePrice(EtherScanTransaction transaction, DatePrice datePrice) {
+    return new Cashback(
+        transaction.getZonedDateTime(), transaction.hash(), transaction.to(), transaction.from(), transaction.value(),
+        transaction.tokenDecimal(), datePrice.zonedDateTime(), datePrice.open(), datePrice.close(),
+        datePrice.avarage());
   }
 
   public BigDecimal getGnoPrice() {

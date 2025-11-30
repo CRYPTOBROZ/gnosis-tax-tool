@@ -70,7 +70,7 @@ public class EtherScanService {
       throw new IllegalStateException("Response is null");
     }
 
-    List<EtherScanTransaction> transactions = response.getResult();
+    List<EtherScanTransaction> transactions = response.result();
 
     if (transactions == null) {
       throw new IllegalStateException("Transactions are null");
@@ -80,11 +80,11 @@ public class EtherScanService {
 
     return transactions.stream()
         .filter(tx -> {
-          int txYear = tx.getDateTime().getYear();
+          int txYear = tx.getZonedDateTime().getYear();
           return txYear == currentYear;
         })
-        .filter(tx -> tx.getMethodId() != null && tx.getMethodId().equals(METHOD_ID))
-        .filter(tx -> tx.getTo() != null && tx.getTo().equalsIgnoreCase(gnosisWalletAddress))
+        .filter(tx -> tx.methodId() != null && tx.methodId().equals(METHOD_ID))
+        .filter(tx -> tx.to() != null && tx.to().equalsIgnoreCase(gnosisWalletAddress))
         .toList();
   }
 }
