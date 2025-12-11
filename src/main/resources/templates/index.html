@@ -26,13 +26,12 @@
                 <!-- <button class="btn m-1 mr-0">PDF</button> -->
             </div>
             <div>
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn m-1">Current year, 2025</div>
-                <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                    <li><a>Current Year, 2025</a></li>
-                    <li><a>Previous Year, 2024</a></li>
-                </ul>
-            </div>
+                <form method="get" action="">
+                    <select class="select select-ghost m-1 hover:bg-transparent focus:bg-transparent focus:border-none hover:border-none" name="selectedYear" id="selectedYear" onchange="this.form.submit()">
+                        <option value="current">Current Year, 2025</option>
+                        <option value="previous">Previous Year, 2024</option>
+                    </select>
+                </form>
             </div>
         </div>
 

@@ -14,7 +14,7 @@ import com.cryptobroz.gnosis_tax_tool.services.CashbackService.dto.CashbackRepor
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.EtherScanService;
 import com.cryptobroz.gnosis_tax_tool.services.EtherScanService.dto.EtherScanTransaction;
 import com.cryptobroz.gnosis_tax_tool.services.KrakenService.KrakenService;
-import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenTickerEntry;
+import com.cryptobroz.gnosis_tax_tool.services.KrakenService.dto.KrakenTicker;
 
 @Service
 public class CashbackService {
@@ -28,7 +28,7 @@ public class CashbackService {
 
   public Map<ZonedDateTime, DatePrice> getDatePrices() {
     int currentYear = java.time.Year.now().getValue();
-    List<KrakenTickerEntry> tickers = krakenService.fetchOHLC(currentYear)
+    List<KrakenTicker> tickers = krakenService.fetchOHLC(currentYear)
         .result()
         .getPairs()
         .get(KrakenService.GNO_EUR_PAIR);

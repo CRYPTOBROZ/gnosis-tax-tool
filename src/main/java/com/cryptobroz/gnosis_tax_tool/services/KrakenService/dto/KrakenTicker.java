@@ -8,8 +8,8 @@ import java.time.ZonedDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(using = KrakenTickerEntryDeserializer.class)
-public record KrakenTickerEntry(int timestamp, BigDecimal open, Double high, Double low, BigDecimal close,
+@JsonDeserialize(using = KrakenTickerDeserializer.class)
+public record KrakenTicker(int timestamp, BigDecimal open, Double high, Double low, BigDecimal close,
     Double volume, Double quoteVolume, int count) {
 
   @JsonIgnore

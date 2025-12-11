@@ -10,15 +10,15 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class KrakenTickerEntryDeserializer extends JsonDeserializer<KrakenTickerEntry> {
+public class KrakenTickerDeserializer extends JsonDeserializer<KrakenTicker> {
     @Override
-    public KrakenTickerEntry deserialize(JsonParser p, DeserializationContext ctxt)
+    public KrakenTicker deserialize(JsonParser p, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
 
         JsonNode node = p.getCodec().readTree(p);
 
         if (node.isArray() && node.size() == 8) {
-            return new KrakenTickerEntry(
+            return new KrakenTicker(
                     node.get(0).asInt(),
                     new BigDecimal(node.get(1).asText()),
                     node.get(2).asDouble(),
