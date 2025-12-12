@@ -50,7 +50,7 @@ public class CashbackService {
 
   public List<Cashback> getCashbacks(final int selectedYear) {
     Map<ZonedDateTime, DatePrice> datePrices = getDatePrices();
-    List<EtherScanTransaction> transactions = etherScanService.fetchCurrentYearCashbackTransactions();
+    List<EtherScanTransaction> transactions = etherScanService.fetchCashbackTransactions(selectedYear);
 
     return transactions.stream().map(transaction -> {
       ZonedDateTime dateTime = transaction.getZonedDateTime().toLocalDate()

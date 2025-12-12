@@ -55,8 +55,12 @@ public class EtherScanService {
         .build().toUri();
   }
 
-  // Get ERC20 Token Transfers by Address
   public List<EtherScanTransaction> fetchCurrentYearCashbackTransactions() {
+    return fetchCashbackTransactions(Year.now().getValue());
+  }
+
+  // Get ERC20 Token Transfers by Address
+  public List<EtherScanTransaction> fetchCashbackTransactions(final int year) {
     final String gnosisWalletAddress = configuration.getGnosisWalletAddress();
     final URI uri = buildURI();
 
@@ -76,12 +80,10 @@ public class EtherScanService {
       throw new IllegalStateException("Transactions are null");
     }
 
-    int currentYear = Year.now().getValue();
-
     return transactions.stream()
         .filter(tx -> {
           int txYear = tx.getZonedDateTime().getYear();
-          return txYear == currentYear;
+          return txYear == year;
         })
         .filter(tx -> tx.methodId() != null && tx.methodId().equals(METHOD_ID))
         .filter(tx -> tx.to() != null && tx.to().equalsIgnoreCase(gnosisWalletAddress))
