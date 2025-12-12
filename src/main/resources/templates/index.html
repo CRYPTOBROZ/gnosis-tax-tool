@@ -28,8 +28,11 @@
             <div>
                 <form method="get" action="">
                     <select class="select select-ghost m-1 hover:bg-transparent focus:bg-transparent focus:border-none hover:border-none" name="selectedYear" id="selectedYear" onchange="this.form.submit()">
-                        <option value="current">Current Year, 2025</option>
-                        <option value="previous">Previous Year, 2024</option>
+                       <option th:each="year : ${T(com.cryptobroz.gnosis_tax_tool.enums.SelectedYear).values()}"
+                            th:value="${year.name().toLowerCase()}"
+                            th:text="${year}"
+                            th:selected="${year == selectedYear}">
+                        </option>
                     </select>
                 </form>
             </div>

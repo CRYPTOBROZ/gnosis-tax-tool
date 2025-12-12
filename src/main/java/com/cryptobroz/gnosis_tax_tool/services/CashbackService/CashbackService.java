@@ -44,6 +44,11 @@ public class CashbackService {
   }
 
   public List<Cashback> getCashbacks() {
+    final int currentYear = java.time.Year.now().getValue();
+    return getCashbacks(currentYear);
+  }
+
+  public List<Cashback> getCashbacks(final int selectedYear) {
     Map<ZonedDateTime, DatePrice> datePrices = getDatePrices();
     List<EtherScanTransaction> transactions = etherScanService.fetchCurrentYearCashbackTransactions();
 
@@ -55,8 +60,8 @@ public class CashbackService {
     }).toList();
   }
 
-  public CashbackReport getCashbackReport() {
-    List<Cashback> cashbacks = this.getCashbacks();
+  public CashbackReport getCashbackReport(final int selectedYear) {
+    List<Cashback> cashbacks = this.getCashbacks(selectedYear);
     return new CashbackReport(cashbacks);
   }
 }
