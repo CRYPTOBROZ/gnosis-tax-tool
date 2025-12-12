@@ -18,7 +18,7 @@ public class PageController {
 
   @GetMapping("/")
   public String index(Model model,
-      @RequestParam(required = false, defaultValue = "CURRENT") SelectedYear selectedYear) {
+      @RequestParam(required = false, defaultValue = "current") SelectedYear selectedYear) {
     CashbackReport cashbackReport = cashbackService.getCashbackReport(selectedYear.toInt());
     model.addAttribute("report", cashbackReport);
     model.addAttribute("selectedYear", selectedYear);

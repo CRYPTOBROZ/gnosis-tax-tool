@@ -6,7 +6,9 @@ public enum SelectedYear {
 
   @Override
   public String toString() {
-    return (this == CURRENT ? "Current Year" : "Previous Year") + ", " + this.toInt();
+    return String.format("%s, %d",
+        this == CURRENT ? "Current Year" : "Previous Year",
+        this.toInt());
   }
 
   public int toInt() {
